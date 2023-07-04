@@ -10,11 +10,14 @@ import * as yup from "yup";
 import { registerUser } from "../features/user/userSlice";
 
 const signUpSchema = yup.object({
-  name: yup.string().required("Họ và tên là bắt buộc"),
-  mobile: yup.string().required("Số điện thoại là bắt buộc"),
-  address: yup.string().required("Địa chỉ là bắt buộc"),
-  email: yup.string().email("Email nên được điền đúng"),
-  password: yup.string().required("Mật khẩu là bắt buộc"),
+  name: yup.string().required("* Họ và tên là bắt buộc"),
+  mobile: yup.string().required("* Số điện thoại là bắt buộc"),
+  address: yup.string().required("* Địa chỉ là bắt buộc"),
+  email: yup
+    .string()
+    .email("* Email nên được điền đúng")
+    .required("* Địa chỉ email là bắt buộc"),
+  password: yup.string().required("* Mật khẩu là bắt buộc"),
 });
 
 const Signup = () => {

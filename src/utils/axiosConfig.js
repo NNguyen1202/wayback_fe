@@ -1,1 +1,1 @@
-export const base_url = "https://waybackwebsite.azurewebsites.net/api/";
+export const base_url = "https://wayback-wb.azurewebsites.net/api/";
