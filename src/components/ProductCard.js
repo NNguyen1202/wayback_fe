@@ -5,12 +5,11 @@ import { Link, useLocation } from "react-router-dom";
 const ProductCard = (props) => {
   const { data, grid } = props;
   console.log(data);
-  const dataArr = Array.from(data);
   let location = useLocation();
 
   return (
     <>
-      {dataArr?.map((item, index) => {
+      {Array.from(data).map((item, index) => {
         return (
           <div
             key={index}
