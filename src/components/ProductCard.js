@@ -5,11 +5,12 @@ import { Link, useLocation } from "react-router-dom";
 const ProductCard = (props) => {
   const { data, grid } = props;
   console.log(data);
+  let dataArr = Array.from(data);
   let location = useLocation();
 
   return (
     <>
-      {data?.map((item, index) => {
+      {dataArr?.map((item, index) => {
         return (
           <div
             key={index}
@@ -34,7 +35,7 @@ const ProductCard = (props) => {
               </div>
               <div className="product-image">
                 <img
-                  src={item?.images[0]?.url}
+                  src="../images/blazar-1.jpg"
                   className="img-fluid"
                   alt="product img"
                 />
@@ -50,7 +51,7 @@ const ProductCard = (props) => {
                 <ReactStars
                   count={5}
                   size={24}
-                  value={item?.totalrating.toString()}
+                  value={parseFloat(item?.totalrating)}
                   edit={false}
                   activeColor="#ffd700"
                 />
@@ -61,7 +62,7 @@ const ProductCard = (props) => {
                 >
                   {item?.description}
                 </p>
-                <p className="price">{item?.price}đ</p>
+                <p className="price">{item?.price} đ</p>
               </div>
               <div className="action-bar position-absolute">
                 <div className="d-flex flex-column gap-15">
