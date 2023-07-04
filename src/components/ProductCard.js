@@ -6,10 +6,11 @@ const ProductCard = (props) => {
   const { data, grid } = props;
   console.log(data);
   let location = useLocation();
+  const dataArray = data || [];
 
   return (
     <>
-      {Array.from(data).map((item, index) => {
+      {dataArray.map((item, index) => {
         return (
           <div
             key={index}
