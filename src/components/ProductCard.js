@@ -6,11 +6,10 @@ const ProductCard = (props) => {
   const { data, grid } = props;
   console.log(data);
   let location = useLocation();
-  const dataArray = data || [];
 
   return (
     <>
-      {dataArray.map((item, index) => {
+      {data?.map((item, index) => {
         return (
           <div
             key={index}
@@ -35,7 +34,7 @@ const ProductCard = (props) => {
               </div>
               <div className="product-image">
                 <img
-                  src="../images/blazar-1.jpg"
+                  src={item?.images[0]}
                   className="img-fluid"
                   alt="product img"
                 />
