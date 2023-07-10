@@ -1,12 +1,18 @@
 import React from "react";
 import ReactStars from "react-rating-stars-component";
 import { Link, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addToWishlist } from "../features/products/productSlice";
 
 const ProductCard = (props) => {
   const { data, grid } = props;
   console.log(data);
+  const dispatch = useDispatch();
   let location = useLocation();
-
+  const addToWish = (id) => {
+    console.log(id);
+    dispatch(addToWishlist(id));
+  };
   return (
     <>
       {data?.map((item, index) => {
@@ -17,18 +23,14 @@ const ProductCard = (props) => {
               location.pathname === "/product" ? `gr-${grid}` : "col-3"
             } `}
           >
-            <Link
-              to={`${
-                location.pathname === "/"
-                  ? "/product/:id"
-                  : location.pathname === "/product/:id"
-                  ? "/product/:id"
-                  : ":id"
-              }`}
-              className="product-card position-relative"
-            >
+            <div className="product-card position-relative">
               <div className="wishlist-icon position-absolute">
-                <button className="border-0 bg-transparent">
+                <button
+                  className="border-0 bg-transparent"
+                  onClick={(e) => {
+                    addToWish(item?._id);
+                  }}
+                >
                   <img src="../images/wish.svg" alt="wishlist" />
                 </button>
               </div>
@@ -68,15 +70,18 @@ const ProductCard = (props) => {
                   <button className="border-0 bg-transparent">
                     <img src="../images/prodcompare.svg" alt="compare" />
                   </button>
-                  <button className="border-0 bg-transparent">
+                  <Link
+                    to={"/product/" + item?._id}
+                    className="border-0 bg-transparent"
+                  >
                     <img src="../images/view.svg" alt="view" />
-                  </button>
+                  </Link>
                   <button className="border-0 bg-transparent">
                     <img src="../images/add-cart.svg" alt="addcart" />
                   </button>
                 </div>
               </div>
-            </Link>
+            </div>
           </div>
         );
       })}

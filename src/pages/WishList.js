@@ -1,10 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import BreadCrumb from "../components/BreadCrumb";
 import Meta from "../components/Meta";
 import Container from "../components/Container";
 import { Helmet } from "react-helmet";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserProductWishlist } from "../features/user/userSlice";
 
 const WishList = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    getWishListFromDb();
+    // eslint-disable-next-line
+  }, []);
+  const getWishListFromDb = () => {
+    dispatch(getUserProductWishlist());
+  };
+  const wishlistState = useSelector((state) => state.auth.wishlist);
   return (
     <>
       <Helmet>

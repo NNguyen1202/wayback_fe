@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BreadCrumb from "../components/BreadCrumb";
 import Meta from "../components/Meta";
 import ProductCard from "../components/ProductCard";
@@ -8,15 +8,26 @@ import { TbGitCompare } from "react-icons/tb";
 import { AiOutlineHeart } from "react-icons/ai";
 import { Helmet } from "react-helmet";
 import Container from "../components/Container";
+import { useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getAProducts } from "../features/products/productSlice";
 // import { Link } from "react-router-dom";
 // import watch from "../images/watch.jpg";
 
 const SingleProduct = () => {
+  const location = useLocation();
+  const getProductId = location.pathname.split("/")[2];
+  const dispatch = useDispatch();
+  const productState = useSelector((state) => state.product.singleproduct);
+  console.log(productState);
+  useEffect(() => {
+    dispatch(getAProducts(getProductId));
+  });
   const props = {
     width: 400,
     height: 600,
     zoomWidth: 600,
-    img: "https://down-vn.img.susercontent.com/file/e9a1464780d98ef4ef9b9c32ce8e02b8",
+    img: productState?.images && productState.images[0],
   };
 
   const [orderedProduct, setOrderedProduct] = useState(true);
@@ -42,10 +53,15 @@ const SingleProduct = () => {
           <div className="col-6">
             <div className="main-product-image">
               <div>
-                <ReactImageZoom {...props} />
+                {props.img ? (
+                  <ReactImageZoom {...props} />
+                ) : (
+                  <div>No image available</div>
+                )}
+                
               </div>
             </div>
-            <div className="other-product-images d-flex flex-wrap gap-15">
+            {/* <div className="other-product-images d-flex flex-wrap gap-15">
               <div>
                 <img
                   src="https://cf.shopee.vn/file/b2ec4b39f3de36ecaaf80578f43803ef"
@@ -74,18 +90,15 @@ const SingleProduct = () => {
                   alt=""
                 />
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="col-6">
             <div className="main-product-details">
               <div className="border-bottom">
-                <h3 className="title">
-                  Áo Khoác Hoodie Khủng Long Cực Chất sweater unisex Cao cấp bền
-                  màu 1Kenz
-                </h3>
+                <h3 className="title">{productState?.title}</h3>
               </div>
               <div className="border-bottom py-3">
-                <p className="price">68.000đ</p>
+                <p className="price">{productState?.price}đ</p>
                 <div className="d-flex align-align-items-center gap-10">
                   <ReactStars
                     count={5}
@@ -102,20 +115,20 @@ const SingleProduct = () => {
               </div>
               <div className="border-bottom py-3">
                 <div className="d-flex gap-10 align-items-center my-2">
-                  <h3 className="product-heading">Kiểu :</h3>{" "}
+                  <h3 className="product-heading">Kiểu :</h3>
                   <p className="product-data">Áo khoác</p>
                 </div>
                 <div className="d-flex gap-10 align-items-center my-2">
-                  <h3 className="product-heading">Thương hiệu :</h3>{" "}
-                  <p className="product-data">WIDTIT</p>
+                  <h3 className="product-heading">Thương hiệu :</h3>
+                  <p className="product-data">{productState?.brand}</p>
                 </div>
                 <div className="d-flex gap-10 align-items-center my-2">
                   <h3 className="product-heading">Loại :</h3>
-                  <p className="product-data">Hoodie</p>
+                  <p className="product-data">{productState?.category}</p>
                 </div>
                 <div className="d-flex gap-10 align-items-center my-2">
                   <h3 className="product-heading">Tags :</h3>
-                  <p className="product-data">Áo, Áo khoác, Hoodie</p>
+                  <p className="product-data">{productState?.tags}</p>
                 </div>
                 <div className="d-flex gap-10 align-items-center my-2">
                   <h3 className="product-heading">Khả dụng :</h3>
@@ -197,14 +210,12 @@ const SingleProduct = () => {
                 </div>
                 <div className="d-flex gap-10 align-items-center my-3">
                   <h3 className="product-heading">Đường dẫn sản phẩm :</h3>
-                  
+
                   <a
-                  // eslint-disable-next-line
+                    // eslint-disable-next-line
                     href="javascript:void(0);"
                     onClick={() => {
-                      copyToClipboard(
-                        "https://down-vn.img.susercontent.com/file/e9a1464780d98ef4ef9b9c32ce8e02b8"
-                      );
+                      copyToClipboard(window.location.href);
                     }}
                   >
                     Sao chép đường dẫn sản phẩm
@@ -220,12 +231,7 @@ const SingleProduct = () => {
           <div className="col-12">
             <h4>Mô tả</h4>
             <div className="bg-white p-3">
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
-              </p>
+              <p>{productState?.description}</p>
             </div>
           </div>
         </div>
