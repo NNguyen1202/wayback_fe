@@ -1,28 +1,61 @@
 import React, { useEffect, useState } from "react";
 import BreadCrumb from "../components/BreadCrumb";
 import Meta from "../components/Meta";
-import ProductCard from "../components/ProductCard";
 import ReactStars from "react-rating-stars-component";
 import ReactImageZoom from "react-image-zoom";
 import { TbGitCompare } from "react-icons/tb";
 import { AiOutlineHeart } from "react-icons/ai";
 import { Helmet } from "react-helmet";
 import Container from "../components/Container";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAProducts } from "../features/products/productSlice";
+import Color from "../components/Color";
+import { toast } from "react-toastify";
+import { addProdToCart, getUserCart } from "../features/user/userSlice";
+
 // import { Link } from "react-router-dom";
 // import watch from "../images/watch.jpg";
 
 const SingleProduct = () => {
+  const [color, setColor] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+  const [alreadyAdded, setAlreadyAdded] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const getProductId = location.pathname.split("/")[2];
   const dispatch = useDispatch();
   const productState = useSelector((state) => state.product.singleproduct);
+  const cartState = useSelector((state) => state.auth.cartProducts);
   console.log(productState);
   useEffect(() => {
     dispatch(getAProducts(getProductId));
-  });
+    dispatch(getUserCart());
+  }, []);
+  useEffect(() => {
+    for (let index = 0; index < cartState?.length; index++) {
+      if (getProductId === cartState[index]?.productId?._id) {
+        setAlreadyAdded(true);
+      }
+    }
+  }, []);
+  const uploadCart = () => {
+    if (color === null) {
+      toast.error("Vui lòng chọn màu");
+      return false;
+    } else {
+      dispatch(
+        addProdToCart({
+          productId: productState?._id,
+          color,
+          quantity,
+          price: productState?.price,
+        })
+      );
+      navigate("/cart");
+    }
+  };
+
   const props = {
     width: 400,
     height: 600,
@@ -58,7 +91,6 @@ const SingleProduct = () => {
                 ) : (
                   <div>No image available</div>
                 )}
-                
               </div>
             </div>
             {/* <div className="other-product-images d-flex flex-wrap gap-15">
@@ -154,36 +186,57 @@ const SingleProduct = () => {
                     </span>
                   </div>
                 </div>
-                <div className="d-flex gap-10 flex-column mt-2 mb-3">
-                  <h3 className="product-heading">Color :</h3>
-                  <ul className="colors ps-0">
-                    <li style={{ backgroundColor: "black" }}></li>
-                    <li style={{ backgroundColor: "Pink" }}></li>
-                  </ul>
-                </div>
+                {alreadyAdded === false && (
+                  <>
+                    <div className="d-flex gap-10 flex-column mt-2 mb-3">
+                      <h3 className="product-heading">Color :</h3>
+                      <ul className="colors ps-0">
+                        <Color
+                          setColor={setColor}
+                          colorData={productState?.color}
+                        />
+                      </ul>
+                    </div>
+                  </>
+                )}
                 <div className="d-flex align-items-center gap-15 flex-row mt-2 mb-3">
-                  <h3 className="product-heading">Quantity :</h3>
-                  <div className="">
-                    <input
-                      type="number"
-                      name=""
-                      min={1}
-                      max={100}
-                      className="form-control"
-                      style={{ width: "70px" }}
-                      id=""
-                    />
-                  </div>
-                  <div className="d-flex align-items-center gap-30 ms-5">
+                  {alreadyAdded === false && (
+                    <>
+                      <h3 className="product-heading">Quantity :</h3>
+                      <div className="">
+                        <input
+                          type="number"
+                          name=""
+                          min={1}
+                          max={100}
+                          className="form-control"
+                          style={{ width: "70px" }}
+                          id=""
+                          onChange={(e) => setQuantity(e.target.value)}
+                          value={quantity}
+                        />
+                      </div>
+                    </>
+                  )}
+                  <div
+                    className={
+                      alreadyAdded
+                        ? "ms-0"
+                        : "ms-5" + "d-flex align-items-center gap-30 ms-5"
+                    }
+                  >
                     <button
                       className="button border-0 text-center"
-                      type="submit"
+                      type="button"
+                      onClick={() => {
+                        alreadyAdded ? navigate("/cart") : uploadCart();
+                      }}
                     >
-                      Thêm vào giỏ hàng
+                      {alreadyAdded ? "Đến giỏ hàng" : "Thêm vào giỏ hàng"}
                     </button>
-                    <button className="button signup text-center">
+                    {/* <button className="button signup text-center">
                       Mua ngay
-                    </button>
+                    </button> */}
                   </div>
                 </div>
                 <div className="d-flex align-items-center gap-15">
@@ -319,9 +372,9 @@ const SingleProduct = () => {
           <div className="col-12">
             <h3 className="section-heading">Các mặt hàng phổ biến</h3>
           </div>
-          <div className="row">
+          {/* <div className="row">
             <ProductCard />
-          </div>
+          </div> */}
         </div>
       </Container>
       {/* <div

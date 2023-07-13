@@ -8,6 +8,7 @@ import Container from "../components/Container";
 import { Helmet } from "react-helmet";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProducts } from "../features/products/productSlice";
+import { getUserCart } from "../features/user/userSlice";
 
 const OurStore = () => {
   const [grid, setGrid] = useState(4);
@@ -20,7 +21,9 @@ const OurStore = () => {
   }, []);
   const getProducts = () => {
     dispatch(getAllProducts());
+    
   };
+  
   return (
     <>
       <Helmet>
