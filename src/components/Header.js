@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { BsSearch } from "react-icons/bs";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const Header = () => {
-  const dispatch = useDispatch();
   const cartState = useSelector((state) => state?.auth?.cartProducts);
   const authState = useSelector((state) => state.auth);
   console.log(cartState);
   const [total, setTotal] = useState(null);
+
+  const handleLogout = () => {
+    localStorage.clear();
+    toast.success("Bạn đã đăng xuất");
+    window.location.reload();
+  };
   useEffect(() => {
     let sum = 0;
     for (let index = 0; index < cartState?.length; index++) {
@@ -72,7 +78,7 @@ const Header = () => {
             </div>
             <div className="col-5">
               <div className="header-upper-links d-flex align-items-center justify-content-between">
-                <div>
+                {/* <div>
                   <Link
                     to="/compare-product"
                     className="d-flex align-items-center gap-10 text-white"
@@ -82,7 +88,7 @@ const Header = () => {
                       So sánh <br /> sản phẩm
                     </p>
                   </Link>
-                </div>
+                </div> */}
                 <div>
                   <Link
                     to="/wishlist"
@@ -105,7 +111,9 @@ const Header = () => {
                         Đăng nhập <br /> tài khoản
                       </p>
                     ) : (
-                      <p className="mb-0">{authState?.user?.name}</p>
+                      <p className="mb-0">
+                        {authState?.user?.name} <br /> {authState?.user?.email}
+                      </p>
                     )}
                   </Link>
                 </div>
@@ -158,6 +166,14 @@ const Header = () => {
                       <li>
                         <Link className="dropdown-item text-white" to="">
                           Something else here
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          onClick={handleLogout}
+                          className="dropdown-item text-white"
+                        >
+                          Đăng xuất
                         </Link>
                       </li>
                     </ul>

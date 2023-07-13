@@ -41,8 +41,8 @@ const ProductCard = (props) => {
                   alt="product img"
                 />
                 <img
-                  src="../images/blazar-2.avif"
-                  className="img-fluid"
+                  src="../images/Asset 2-50.avif"
+                  className="img-fluid w-100 h-100"
                   alt="product img"
                 />
               </div>
