@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { authService } from "./userService";
 import { toast } from "react-toastify";
-import Swal from "sweetalert2";
+import { Swal } from "sweetalert2";
 
 export const registerUser = createAsyncThunk(
   "auth/register",
