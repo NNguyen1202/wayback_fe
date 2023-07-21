@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { authService } from "./userService";
 import { toast } from "react-toastify";
-import { Swal } from "sweetalert2";
+// import { Swal } from "sweetalert2";
 
 export const registerUser = createAsyncThunk(
   "auth/register",
@@ -252,21 +252,21 @@ export const authSlice = createSlice({
         state.isSuccess = true;
         state.orderedProduct = action.payload;
         if (state.isSuccess) {
-          // toast.success("Sản phẩm đã được cập nhật trong giỏ hàng thành công");
-          Swal.fire({
-            title: "Xác nhận đặt hàng?",
-            showDenyButton: true,
-            confirmButtonText: "Đặt hàng",
-            denyButtonText: `Hủy đơn hàng`,
-            icon: "warning",
-          }).then((result) => {
-            /* Read more about isConfirmed, isDenied below */
-            if (result.isConfirmed) {
-              Swal.fire("Đặt hàng thành công!", "", "success");
-            } else if (result.isDenied) {
-              Swal.fire("Bạn đã hủy đơn hàng", "", "error");
-            }
-          });
+          toast.success("Đặt hàng thành công!");
+          // Swal.fire({
+          //   title: "Xác nhận đặt hàng?",
+          //   showDenyButton: true,
+          //   confirmButtonText: "Đặt hàng",
+          //   denyButtonText: `Hủy đơn hàng`,
+          //   icon: "warning",
+          // }).then((result) => {
+          //   /* Read more about isConfirmed, isDenied below */
+          //   if (result.isConfirmed) {
+          //     Swal.fire("Đặt hàng thành công!", "", "success");
+          //   } else if (result.isDenied) {
+          //     Swal.fire("Bạn đã hủy đơn hàng", "", "error");
+          //   }
+          // });
         }
       })
       .addCase(createAnOrder.rejected, (state, action) => {
