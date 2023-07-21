@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { authService } from "./userService";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 export const registerUser = createAsyncThunk(
   "auth/register",
@@ -40,6 +41,17 @@ export const addProdToCart = createAsyncThunk(
   async (cartData, thunkAPI) => {
     try {
       return await authService.addToCart(cartData);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const createAnOrder = createAsyncThunk(
+  "user/cart/create-order",
+  async (orderDetail, thunkAPI) => {
+    try {
+      return await authService.createOrder(orderDetail);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -223,6 +235,41 @@ export const authSlice = createSlice({
         }
       })
       .addCase(updateCartProduct.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+        if (state.isSuccess === false) {
+          toast.error("Đã xảy ra sự cố");
+        }
+      })
+      .addCase(createAnOrder.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(createAnOrder.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.orderedProduct = action.payload;
+        if (state.isSuccess) {
+          // toast.success("Sản phẩm đã được cập nhật trong giỏ hàng thành công");
+          Swal.fire({
+            title: "Xác nhận đặt hàng?",
+            showDenyButton: true,
+            confirmButtonText: "Đặt hàng",
+            denyButtonText: `Hủy đơn hàng`,
+            icon: "warning",
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+              Swal.fire("Đặt hàng thành công!", "", "success");
+            } else if (result.isDenied) {
+              Swal.fire("Bạn đã hủy đơn hàng", "", "error");
+            }
+          });
+        }
+      })
+      .addCase(createAnOrder.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

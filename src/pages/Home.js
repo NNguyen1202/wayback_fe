@@ -368,6 +368,7 @@ const Home = () => {
                     price={item?.price}
                     sold={item?.sold}
                     quantity={item?.quantity}
+                    images={item?.images[0]}
                   />
                 );
               }
@@ -385,8 +386,8 @@ const Home = () => {
               productState?.map((item, index) => {
                 if (item.tags === "popular") {
                   return (
-                    <div>
-                      <div key={index} className={"col-3"}>
+                    <>
+                      <div key={index} className="col-3">
                         <div className="product-card position-relative">
                           <div className="wishlist-icon position-absolute">
                             <button
@@ -449,7 +450,7 @@ const Home = () => {
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </>
                   );
                 }
               })}

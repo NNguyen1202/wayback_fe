@@ -1,25 +1,43 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
 import Container from "../components/Container";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { createAnOrder } from "../features/user/userSlice";
 
 const shippingSchema = yup.object({
-  firstName: yup.string().required("* Tên là bắt buộc"),
-  lastName: yup.string().required("* Họ là bắt buộc"),
-  address: yup.string().required("* Địa chỉ là bắt buộc"),
-  ward: yup.string().required("* Phường là bắt buộc"),
-  district: yup.string().required("* Quận là bắt buộc"),
-  city: yup.string().required("* Thành phố là bắt buộc"),
+  firstName: yup.string().required("* bắt buộc"),
+  lastName: yup.string().required("* bắt buộc"),
+  address: yup.string().required("* bắt buộc"),
+  ward: yup.string().required("* bắt buộc"),
+  district: yup.string().required("* bắt buộc"),
+  city: yup.string().required("* bắt buộc"),
 });
 
 const Checkout = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const cartState = useSelector((state) => state.auth.cartProducts);
+  const authState = useSelector((state) => state.auth);
   const [totalAmount, setTotalAmount] = useState(null);
   const [shippingInfo, setShippingInfo] = useState(null);
+  const [cartProductState, setCartProductState] = useState([]);
+
+  useEffect(() => {
+    let items = [];
+    for (let index = 0; index < cartState?.length; index++) {
+      items.push({
+        product: cartState[index].productId._id,
+        quantity: cartState[index].quantity,
+        color: cartState[index].color._id,
+        price: cartState[index].price,
+      });
+    }
+    setCartProductState(items);
+  }, []);
+
   useEffect(() => {
     let sum = 0;
     for (let index = 0; index < cartState?.length; index++) {
@@ -27,6 +45,7 @@ const Checkout = () => {
       setTotalAmount(sum);
     }
   }, [cartState]);
+
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -38,10 +57,43 @@ const Checkout = () => {
     },
     validationSchema: shippingSchema,
     onSubmit: (values) => {
-      
       setShippingInfo(values);
+      setTimeout(() => {
+        handleAlert();
+      }, 300);
     },
   });
+  
+  const handleAlert = () => {
+    dispatch(
+      createAnOrder({
+        totalPrice: totalAmount,
+        totalPriceAfterDiscount: totalAmount,
+        orderItems: cartProductState,
+        shippingInfo,
+      })
+    );
+    // navigate("/");
+  };
+  
+
+  // const handleAlert = () => {
+  //   Swal.fire({
+  //     title: "Xác nhận đặt hàng?",
+  //     showDenyButton: true,
+  //     showCancelButton: true,
+  //     confirmButtonText: "Save",
+  //     denyButtonText: `Don't save`,
+  //   }).then((result) => {
+  //     /* Read more about isConfirmed, isDenied below */
+  //     if (result.isConfirmed) {
+  //       Swal.fire("Saved!", "", "success");
+  //     } else if (result.isDenied) {
+  //       Swal.fire("Changes are not saved", "", "info");
+  //     }
+  //   });
+  // };
+
   return (
     <>
       <Container class1="checkout-wrapper py-5 home-wrapper-2">
@@ -56,10 +108,10 @@ const Checkout = () => {
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">
                     <Link className="text-dark total-price" to="/cart">
-                      Giỏ hàng
+                      Giao hàng và thanh toán
                     </Link>
                   </li>
-                  &nbsp; /&nbsp;
+                  {/* &nbsp; /&nbsp;
                   <li
                     className="breadcrumb-item total-price active"
                     aria-current="page"
@@ -76,12 +128,12 @@ const Checkout = () => {
                     aria-current="page"
                   >
                     Thanh toán
-                  </li>
+                  </li> */}
                 </ol>
               </nav>
               <h4 className="title total">Thông tin liên hệ</h4>
               <p className="user-details total">
-                Nguyên Nguyễn (nguyennhse150329@fpt.edu.vn)
+                {authState?.user?.name} ({authState?.user?.email})
               </p>
               <h4 className="mb-3">Địa chỉ giao hàng</h4>
               <form
@@ -89,13 +141,6 @@ const Checkout = () => {
                 action=""
                 className="d-flex gap-15 flex-wrap justify-content-between"
               >
-                {/* <div className="w-100">
-                  <select name="" className="form-control form-select" id="">
-                    <option value="" selected disabled>
-                      chọn quốc gia
-                    </option>
-                  </select>
-                </div> */}
                 <div className="flex-grow-1">
                   <input
                     type="text"
@@ -204,10 +249,14 @@ const Checkout = () => {
                       <BiArrowBack className="me-2" />
                       Quay lại giỏ hàng
                     </Link>
-                    <Link to="/cart" className="button">
-                      Tiếp tục
+                    <Link to="/product" className="button">
+                      Tiếp tục mua hàng
                     </Link>
-                    <button className="button" type="submit">
+                    <button
+                      className="button"
+                      type="submit"
+                      // onClick={handleAlert}
+                    >
                       Đặt hàng
                     </button>
                   </div>
