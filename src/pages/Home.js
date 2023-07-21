@@ -368,7 +368,6 @@ const Home = () => {
                     price={item?.price}
                     sold={item?.sold}
                     quantity={item?.quantity}
-                    images={item?.images[0]}
                   />
                 );
               }
