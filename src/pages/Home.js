@@ -209,6 +209,91 @@ const Home = () => {
           </div>
         </div>
       </Container>
+      {/* popular products */}
+      <Container class1="popular-wrapper py-5 home-wrapper-2">
+        <div className="row">
+          <div className="col-12">
+            <h3 className="section-heading">Các mặt hàng phổ biến</h3>
+          </div>
+          <div className="row">
+            {productState &&
+              productState?.map((item, index) => {
+                if (item.tags === "popular") {
+                  return (
+                    <>
+                      <div key={index} className="col-3">
+                        <div className="product-card position-relative">
+                          <div className="wishlist-icon position-absolute">
+                            <button
+                              className="border-0 bg-transparent"
+                              onClick={(e) => {
+                                addToWish(item?._id);
+                              }}
+                            >
+                              <img src="../images/wish.svg" alt="wishlist" />
+                            </button>
+                          </div>
+                          <div
+                            className="product-image"
+                            onClick={() => navigate("/product/" + item?._id)}
+                          >
+                            <img
+                              src={item?.images[0]}
+                              className="img-fluid"
+                              alt="product img"
+                            />
+                            <img
+                              src="https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-6/362261871_294634949728768_2770363765512200617_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=730e14&_nc_ohc=OKTUyN74NBUAX8nfjPi&_nc_ht=scontent.fsgn2-6.fna&oh=00_AfCwLU4efqWMrbdLBnkdI-vAVxkBH77nMwyV5ARwuWanjw&oe=64BF02BD"
+                              className="img-fluid"
+                              alt="product img"
+                            />
+                          </div>
+                          <div className="product-details">
+                            <h6 className="brand">{item?.brand}</h6>
+                            <h5 className="product-title">{item?.title}</h5>
+                            <ReactStars
+                              count={5}
+                              size={24}
+                              value={parseFloat(item?.totalrating)}
+                              edit={false}
+                              activeColor="#ffd700"
+                            />
+                            <p className="price">{item?.price} đ</p>
+                          </div>
+                          <div className="action-bar position-absolute">
+                            <div className="d-flex flex-column gap-15">
+                              <button className="border-0 bg-transparent">
+                                <img
+                                  src="../images/prodcompare.svg"
+                                  alt="compare"
+                                />
+                              </button>
+                              <button className="border-0 bg-transparent">
+                                <img
+                                  onClick={() =>
+                                    navigate("/product/" + item?._id)
+                                  }
+                                  src="../images/view.svg"
+                                  alt="view"
+                                />
+                              </button>
+                              <button className="border-0 bg-transparent">
+                                <img
+                                  src="../images/add-cart.svg"
+                                  alt="addcart"
+                                />
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  );
+                }
+              })}
+          </div>
+        </div>
+      </Container>
       {/* featured collection */}
       <Container class1="featured-wrapper py-5 home-wrapper-2">
         <div className="row">
@@ -372,91 +457,6 @@ const Home = () => {
                 );
               }
             })}
-        </div>
-      </Container>
-      {/* popular products */}
-      <Container class1="popular-wrapper py-5 home-wrapper-2">
-        <div className="row">
-          <div className="col-12">
-            <h3 className="section-heading">Các mặt hàng phổ biến</h3>
-          </div>
-          <div className="row">
-            {productState &&
-              productState?.map((item, index) => {
-                if (item.tags === "popular") {
-                  return (
-                    <>
-                      <div key={index} className="col-3">
-                        <div className="product-card position-relative">
-                          <div className="wishlist-icon position-absolute">
-                            <button
-                              className="border-0 bg-transparent"
-                              onClick={(e) => {
-                                addToWish(item?._id);
-                              }}
-                            >
-                              <img src="../images/wish.svg" alt="wishlist" />
-                            </button>
-                          </div>
-                          <div
-                            className="product-image"
-                            onClick={() => navigate("/product/" + item?._id)}
-                          >
-                            <img
-                              src={item?.images[0]}
-                              className="img-fluid"
-                              alt="product img"
-                            />
-                            <img
-                              src="https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-6/362261871_294634949728768_2770363765512200617_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=730e14&_nc_ohc=OKTUyN74NBUAX8nfjPi&_nc_ht=scontent.fsgn2-6.fna&oh=00_AfCwLU4efqWMrbdLBnkdI-vAVxkBH77nMwyV5ARwuWanjw&oe=64BF02BD"
-                              className="img-fluid"
-                              alt="product img"
-                            />
-                          </div>
-                          <div className="product-details">
-                            <h6 className="brand">{item?.brand}</h6>
-                            <h5 className="product-title">{item?.title}</h5>
-                            <ReactStars
-                              count={5}
-                              size={24}
-                              value={parseFloat(item?.totalrating)}
-                              edit={false}
-                              activeColor="#ffd700"
-                            />
-                            <p className="price">{item?.price} đ</p>
-                          </div>
-                          <div className="action-bar position-absolute">
-                            <div className="d-flex flex-column gap-15">
-                              <button className="border-0 bg-transparent">
-                                <img
-                                  src="../images/prodcompare.svg"
-                                  alt="compare"
-                                />
-                              </button>
-                              <button className="border-0 bg-transparent">
-                                <img
-                                  onClick={() =>
-                                    navigate("/product/" + item?._id)
-                                  }
-                                  src="../images/view.svg"
-                                  alt="view"
-                                />
-                              </button>
-                              <button className="border-0 bg-transparent">
-                                <img
-                                  src="../images/add-cart.svg"
-                                  alt="addcart"
-                                />
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </>
-                  );
-                }
-              })}
-          </div>
         </div>
       </Container>
       {/* marquee */}
