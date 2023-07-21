@@ -239,7 +239,7 @@ const Home = () => {
                             alt="product img"
                           />
                           <img
-                            src="../images/blazar-2.avif"
+                            src="https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-6/362261871_294634949728768_2770363765512200617_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=730e14&_nc_ohc=OKTUyN74NBUAX8nfjPi&_nc_ht=scontent.fsgn2-6.fna&oh=00_AfCwLU4efqWMrbdLBnkdI-vAVxkBH77nMwyV5ARwuWanjw&oe=64BF02BD"
                             className="img-fluid"
                             alt="product img"
                           />
@@ -398,7 +398,10 @@ const Home = () => {
                               <img src="../images/wish.svg" alt="wishlist" />
                             </button>
                           </div>
-                          <div className="product-image">
+                          <div
+                            className="product-image"
+                            onClick={() => navigate("/product/" + item?._id)}
+                          >
                             <img
                               src={item?.images[0]}
                               className="img-fluid"
