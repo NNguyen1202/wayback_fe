@@ -45,7 +45,7 @@ const ProductCard = (props) => {
                   alt="product img"
                 />
                 <img
-                  src="https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-6/362261871_294634949728768_2770363765512200617_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=730e14&_nc_ohc=OKTUyN74NBUAX8nfjPi&_nc_ht=scontent.fsgn2-6.fna&oh=00_AfCwLU4efqWMrbdLBnkdI-vAVxkBH77nMwyV5ARwuWanjw&oe=64BF02BD"
+                  src="https://i.imgur.com/XZMoCKp.jpg"
                   className="img-fluid w-100 h-100"
                   alt="product img"
                 />

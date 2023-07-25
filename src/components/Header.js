@@ -7,7 +7,6 @@ import { toast } from "react-toastify";
 const Header = () => {
   const cartState = useSelector((state) => state?.auth?.cartProducts);
   const authState = useSelector((state) => state.auth);
-  console.log(cartState);
   const [total, setTotal] = useState(null);
 
   const handleLogout = () => {

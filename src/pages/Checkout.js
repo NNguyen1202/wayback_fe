@@ -23,18 +23,19 @@ const Checkout = () => {
   const authState = useSelector((state) => state.auth);
   const [totalAmount, setTotalAmount] = useState(null);
   const [shippingInfo, setShippingInfo] = useState(null);
-  const [cartProductState, setCartProductState] = useState([]);
+  const [cartProductState, setCartProductState] = useState(null);
 
   useEffect(() => {
     let items = [];
     for (let index = 0; index < cartState?.length; index++) {
       items.push({
         product: cartState[index].productId._id,
-        quantity: cartState[index].quantity,
         color: cartState[index].color._id,
+        quantity: cartState[index].quantity,
         price: cartState[index].price,
       });
     }
+
     setCartProductState(items);
   }, []);
 
@@ -59,23 +60,25 @@ const Checkout = () => {
     onSubmit: (values) => {
       setShippingInfo(values);
       setTimeout(() => {
-        handleAlert();
+      handleAlert();
       }, 300);
     },
   });
-  
+
   const handleAlert = () => {
-    dispatch(
-      createAnOrder({
-        totalPrice: totalAmount,
-        totalPriceAfterDiscount: totalAmount,
-        orderItems: cartProductState,
-        shippingInfo,
-      })
-    );
+    console.log(cartProductState);
+      dispatch(
+        createAnOrder({
+          totalPrice: totalAmount,
+          totalPriceAfterDiscount: totalAmount,
+          orderItems: cartProductState,
+          shippingInfo,
+        })
+      );
+      // handleAlert();
+    
     // navigate("/");
   };
-  
 
   // const handleAlert = () => {
   //   Swal.fire({
@@ -255,7 +258,6 @@ const Checkout = () => {
                     <button
                       className="button"
                       type="submit"
-                      // onClick={handleAlert}
                     >
                       Đặt hàng
                     </button>

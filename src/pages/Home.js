@@ -140,70 +140,110 @@ const Home = () => {
                   <h6>Áo</h6>
                   <p>8 Items</p>
                 </div>
-                <img src="images/áo-category.jpg" alt="camera" />
+                <img
+                  className="img-fluid w-25"
+                  src="https://i.imgur.com/gR92Jnd.png"
+                  alt="camera"
+                />
               </div>
               <div className="d-flex gap align-items-center">
                 <div>
                   <h6>Quần</h6>
                   <p>10 Items</p>
                 </div>
-                <img src="images/quần-category.jpg" alt="camera" />
+                <img
+                  className="img-fluid w-25"
+                  src="https://i.imgur.com/gR92Jnd.png"
+                  alt="camera"
+                />
               </div>
               <div className="d-flex gap align-items-center">
                 <div>
                   <h6>Nón</h6>
                   <p>12 Items</p>
                 </div>
-                <img src="images/áo-category.jpg" alt="camera" />
+                <img
+                  className="img-fluid w-25"
+                  src="https://i.imgur.com/gR92Jnd.png"
+                  alt="camera"
+                />
               </div>
               <div className="d-flex gap align-items-center">
                 <div>
                   <h6>Túi</h6>
                   <p>13 Items</p>
                 </div>
-                <img src="images/áo-category.jpg" alt="camera" />
+                <img
+                  className="img-fluid w-25"
+                  src="https://i.imgur.com/gR92Jnd.png"
+                  alt="camera"
+                />
               </div>
               <div className="d-flex gap align-items-center">
                 <div>
                   <h6>Áo</h6>
                   <p>4 Items</p>
                 </div>
-                <img src="images/áo-category.jpg" alt="camera" />
+                <img
+                  className="img-fluid w-25"
+                  src="https://i.imgur.com/gR92Jnd.png"
+                  alt="camera"
+                />
               </div>
               <div className="d-flex gap align-items-center">
                 <div>
                   <h6>Quần</h6>
                   <p>5 Items</p>
                 </div>
-                <img src="images/áo-category.jpg" alt="camera" />
+                <img
+                  className="img-fluid w-25"
+                  src="https://i.imgur.com/gR92Jnd.png"
+                  alt="camera"
+                />
               </div>
               <div className="d-flex gap align-items-center">
                 <div>
                   <h6>Nón</h6>
                   <p>8 Items</p>
                 </div>
-                <img src="images/áo-category.jpg" alt="camera" />
+                <img
+                  className="img-fluid w-25"
+                  src="https://i.imgur.com/gR92Jnd.png"
+                  alt="camera"
+                />
               </div>
               <div className="d-flex gap align-items-center">
                 <div>
                   <h6>Túi</h6>
                   <p>6 Items</p>
                 </div>
-                <img src="images/áo-category.jpg" alt="camera" />
+                <img
+                  className="img-fluid w-25"
+                  src="https://i.imgur.com/gR92Jnd.png"
+                  alt="camera"
+                />
               </div>
               <div className="d-flex gap align-items-center">
                 <div>
                   <h6>Áo</h6>
                   <p>15 Items</p>
                 </div>
-                <img src="images/áo-category.jpg" alt="camera" />
+                <img
+                  className="img-fluid w-25"
+                  src="https://i.imgur.com/gR92Jnd.png"
+                  alt="camera"
+                />
               </div>
               <div className="d-flex gap align-items-center">
                 <div>
                   <h6>Áo</h6>
                   <p>10 Items</p>
                 </div>
-                <img src="images/áo-category.jpg" alt="camera" />
+                <img
+                  className="img-fluid w-25"
+                  src="https://i.imgur.com/gR92Jnd.png"
+                  alt="camera"
+                />
               </div>
             </div>
           </div>
