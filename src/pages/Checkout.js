@@ -23,7 +23,7 @@ const Checkout = () => {
   const authState = useSelector((state) => state.auth);
   const [totalAmount, setTotalAmount] = useState(null);
   const [shippingInfo, setShippingInfo] = useState(null);
-  const [cartProductState, setCartProductState] = useState(null);
+  const [cartProductState, setCartProductState] = useState([]);
 
   useEffect(() => {
     let items = [];
@@ -59,26 +59,34 @@ const Checkout = () => {
     validationSchema: shippingSchema,
     onSubmit: (values) => {
       setShippingInfo(values);
+      console.log(shippingInfo);
       setTimeout(() => {
-      handleAlert();
+        handleAlert();
       }, 300);
     },
+    
   });
 
-  const handleAlert = () => {
+  const handleAlert = async () => {
     console.log(cartProductState);
-      dispatch(
-        createAnOrder({
-          totalPrice: totalAmount,
-          totalPriceAfterDiscount: totalAmount,
-          orderItems: cartProductState,
-          shippingInfo,
-        })
-      );
-      // handleAlert();
-    
+    const response = await dispatch(
+      createAnOrder({
+        totalPrice: totalAmount,
+        totalPriceAfterDiscount: totalAmount,
+        orderItems: cartProductState,
+        shippingInfo,
+      })
+    );
+    console.log(response);
+    // handleAlert();
+
     // navigate("/");
   };
+
+  useEffect(() => {
+    // This will run whenever the shippingInfo state changes.
+    console.log(shippingInfo);
+  }, [shippingInfo]);
 
   // const handleAlert = () => {
   //   Swal.fire({
@@ -255,10 +263,7 @@ const Checkout = () => {
                     <Link to="/product" className="button">
                       Tiếp tục mua hàng
                     </Link>
-                    <button
-                      className="button"
-                      type="submit"
-                    >
+                    <button className="button" type="submit">
                       Đặt hàng
                     </button>
                   </div>

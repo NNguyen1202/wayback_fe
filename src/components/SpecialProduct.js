@@ -12,8 +12,8 @@ const SpecialProduct = (props) => {
         <div className="d-flex justify-content-between">
           <div>
             <img
-              src="https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-6/362261871_294634949728768_2770363765512200617_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=730e14&_nc_ohc=OKTUyN74NBUAX8nfjPi&_nc_ht=scontent.fsgn2-6.fna&oh=00_AfCwLU4efqWMrbdLBnkdI-vAVxkBH77nMwyV5ARwuWanjw&oe=64BF02BD"
-              className="img-fluid"
+              src="https://i.imgur.com/HfqY6Fe.png"
+              className="img-fluid object-fit-xl-cover"
               alt="special"
             />
           </div>
