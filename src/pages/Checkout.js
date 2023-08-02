@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { createAnOrder } from "../features/user/userSlice";
+import Swal from "sweetalert2";
 
 const shippingSchema = yup.object({
   firstName: yup.string().required("* bắt buộc"),
@@ -19,24 +20,23 @@ const shippingSchema = yup.object({
 const Checkout = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const cartState = useSelector((state) => state.auth.cartProducts);
   const authState = useSelector((state) => state.auth);
+  const cartState = useSelector((state) => state.auth.cartProducts);
   const [totalAmount, setTotalAmount] = useState(null);
   const [shippingInfo, setShippingInfo] = useState(null);
-  const [cartProductState, setCartProductState] = useState([]);
+  const [cartProductStatee, setCartProductStatee] = useState([]);
 
   useEffect(() => {
     let items = [];
     for (let index = 0; index < cartState?.length; index++) {
       items.push({
-        product: cartState[index].productId._id,
-        color: cartState[index].color._id,
-        quantity: cartState[index].quantity,
-        price: cartState[index].price,
+        product: cartState[index]?.productId?._id,
+        color: cartState[index]?.color._id,
+        quantity: cartState[index]?.quantity,
+        price: cartState[index]?.price,
       });
     }
-
-    setCartProductState(items);
+    setCartProductStatee(items);
   }, []);
 
   useEffect(() => {
@@ -59,50 +59,64 @@ const Checkout = () => {
     validationSchema: shippingSchema,
     onSubmit: (values) => {
       setShippingInfo(values);
-      console.log(shippingInfo);
+
       setTimeout(() => {
-        handleAlert();
+        handleAlert(values); // Pass values and cartProductState to handleAlert
       }, 300);
     },
-    
   });
 
-  const handleAlert = async () => {
-    console.log(cartProductState);
-    const response = await dispatch(
-      createAnOrder({
-        totalPrice: totalAmount,
-        totalPriceAfterDiscount: totalAmount,
-        orderItems: cartProductState,
-        shippingInfo,
-      })
-    );
-    console.log(response);
+  const handleAlert = (shippingInfo) => {
+    // const response = dispatch(
+    //   createAnOrder({
+    //     totalPrice: totalAmount,
+    //     totalPriceAfterDiscount: totalAmount,
+    //     orderItems: cartProductStatee,
+    //     shippingInfo,
+    //   })
+    // );
+    Swal.fire({
+      title: "Xác nhận đặt hàng?",
+      showDenyButton: true,
+      confirmButtonText: "Đặt hàng",
+      denyButtonText: `Hủy đơn hàng`,
+      icon: "warning",
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        Swal.fire("Đặt hàng thành công!", "", "success");
+        dispatch(
+          createAnOrder({
+            totalPrice: totalAmount,
+            totalPriceAfterDiscount: totalAmount,
+            orderItems: cartProductStatee,
+            shippingInfo,
+          })
+        );
+        navigate("/");
+      } else if (result.isDenied) {
+        Swal.fire("Bạn đã hủy đơn hàng", "", "error");
+        navigate("/cart");
+      }
+    });
     // handleAlert();
-
-    // navigate("/");
   };
 
-  useEffect(() => {
-    // This will run whenever the shippingInfo state changes.
-    console.log(shippingInfo);
-  }, [shippingInfo]);
-
   // const handleAlert = () => {
-  //   Swal.fire({
-  //     title: "Xác nhận đặt hàng?",
-  //     showDenyButton: true,
-  //     showCancelButton: true,
-  //     confirmButtonText: "Save",
-  //     denyButtonText: `Don't save`,
-  //   }).then((result) => {
-  //     /* Read more about isConfirmed, isDenied below */
-  //     if (result.isConfirmed) {
-  //       Swal.fire("Saved!", "", "success");
-  //     } else if (result.isDenied) {
-  //       Swal.fire("Changes are not saved", "", "info");
-  //     }
-  //   });
+  // Swal.fire({
+  //   title: "Xác nhận đặt hàng?",
+  //   showDenyButton: true,
+  //   showCancelButton: true,
+  //   confirmButtonText: "Save",
+  //   denyButtonText: `Don't save`,
+  // }).then((result) => {
+  //   /* Read more about isConfirmed, isDenied below */
+  //   if (result.isConfirmed) {
+  //     Swal.fire("Saved!", "", "success");
+  //   } else if (result.isDenied) {
+  //     Swal.fire("Changes are not saved", "", "info");
+  //   }
+  // });
   // };
 
   return (
