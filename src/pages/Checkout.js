@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { createAnOrder } from "../features/user/userSlice";
-import Swal from "sweetalert2";
 
 const shippingSchema = yup.object({
   firstName: yup.string().required("* bắt buộc"),
@@ -67,7 +66,7 @@ const Checkout = () => {
   });
 
   const handleAlert = (shippingInfo) => {
-    const response = dispatch(
+    dispatch(
       createAnOrder({
         totalPrice: totalAmount,
         totalPriceAfterDiscount: totalAmount,
@@ -75,6 +74,7 @@ const Checkout = () => {
         shippingInfo,
       })
     );
+    navigate("/");
     // Swal.fire({
     //   title: "Xác nhận đặt hàng?",
     //   showDenyButton: true,
@@ -93,7 +93,7 @@ const Checkout = () => {
     //         shippingInfo,
     //       })
     //     );
-    //     navigate("/");
+    //
     //   } else if (result.isDenied) {
     //     Swal.fire("Bạn đã hủy đơn hàng", "", "error");
     //     navigate("/cart");
