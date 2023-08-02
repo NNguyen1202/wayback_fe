@@ -67,39 +67,39 @@ const Checkout = () => {
   });
 
   const handleAlert = (shippingInfo) => {
-    // const response = dispatch(
-    //   createAnOrder({
-    //     totalPrice: totalAmount,
-    //     totalPriceAfterDiscount: totalAmount,
-    //     orderItems: cartProductStatee,
-    //     shippingInfo,
-    //   })
-    // );
-    Swal.fire({
-      title: "Xác nhận đặt hàng?",
-      showDenyButton: true,
-      confirmButtonText: "Đặt hàng",
-      denyButtonText: `Hủy đơn hàng`,
-      icon: "warning",
-    }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
-      if (result.isConfirmed) {
-        Swal.fire("Đặt hàng thành công!", "", "success");
-        dispatch(
-          createAnOrder({
-            totalPrice: totalAmount,
-            totalPriceAfterDiscount: totalAmount,
-            orderItems: cartProductStatee,
-            shippingInfo,
-          })
-        );
-        navigate("/");
-      } else if (result.isDenied) {
-        Swal.fire("Bạn đã hủy đơn hàng", "", "error");
-        navigate("/cart");
-      }
-    });
-    // handleAlert();
+    const response = dispatch(
+      createAnOrder({
+        totalPrice: totalAmount,
+        totalPriceAfterDiscount: totalAmount,
+        orderItems: cartProductStatee,
+        shippingInfo,
+      })
+    );
+    // Swal.fire({
+    //   title: "Xác nhận đặt hàng?",
+    //   showDenyButton: true,
+    //   confirmButtonText: "Đặt hàng",
+    //   denyButtonText: `Hủy đơn hàng`,
+    //   icon: "warning",
+    // }).then((result) => {
+    //   /* Read more about isConfirmed, isDenied below */
+    //   if (result.isConfirmed) {
+    //     Swal.fire("Đặt hàng thành công!", "", "success");
+    //     dispatch(
+    //       createAnOrder({
+    //         totalPrice: totalAmount,
+    //         totalPriceAfterDiscount: totalAmount,
+    //         orderItems: cartProductStatee,
+    //         shippingInfo,
+    //       })
+    //     );
+    //     navigate("/");
+    //   } else if (result.isDenied) {
+    //     Swal.fire("Bạn đã hủy đơn hàng", "", "error");
+    //     navigate("/cart");
+    //   }
+    // });
+    // // handleAlert();
   };
 
   // const handleAlert = () => {
